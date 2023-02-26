@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Chop",
+    "type": "Black Bear",
+    "height": "200cm",
+    "weight": "200kg"
+  },
+  {
+    "id": 2,
+    "name": "Candy",
+    "type": "Grizzly Bear",
+    "height": "345cm",
+    "weight": "432kg"
+  },
+  {
+    "id": 3,
+    "name": "Pepe",
+    "type": "Pepe Bear",
+    "height": "464cm",
+    "weight": "721kg"
+  },
+  {
+    "id": 4,
+    "name": "Juan",
+    "type": "Juan  Bear",
+    "height": "200cm",
+    "weight": "1000kg"
+  }
+]

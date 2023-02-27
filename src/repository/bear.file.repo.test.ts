@@ -15,11 +15,9 @@ describe('Given ThingsFileRepo', () => {
 
   describe('When i use query', () => {
     test('Then it should return the data', async () => {
-      // Assert
       (fs.readFile as jest.Mock).mockResolvedValue('[]');
       const result = await repo.readAll();
 
-      // Assert
       expect(fs.readFile).toHaveBeenCalled();
       expect(result).toEqual([]);
     });
@@ -27,7 +25,6 @@ describe('Given ThingsFileRepo', () => {
 
   describe('When i use queryId', () => {
     test('Then it should return an object if it has a valid id', async () => {
-      // Assert
       (fs.readFile as jest.Mock).mockResolvedValue('[{"id": "1"}]');
       const id = '1';
       const result = await repo.readID(id);
@@ -35,7 +32,6 @@ describe('Given ThingsFileRepo', () => {
       expect(result).toEqual({ id: '1' });
     });
     test('Then it should throw an error', () => {
-      // Assert
       (fs.readFile as jest.Mock).mockResolvedValue('[{"id": "2"}]');
       const id = '1';
 
@@ -113,7 +109,6 @@ describe('Given ThingsFileRepo', () => {
 
   describe('When use delete', () => {
     test('Then it should return an object if it has a valid id', async () => {
-      // Assert
       (fs.readFile as jest.Mock).mockResolvedValue('[{"id": "1"}]');
       const id = '1';
       const result = await repo.delete(id);

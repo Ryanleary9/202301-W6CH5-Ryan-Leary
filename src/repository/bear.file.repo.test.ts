@@ -6,7 +6,6 @@ jest.mock('fs/promises');
 describe('Given ThingsFileRepo', () => {
   // Arrange
   const repo = new BearsFileRepo();
-  let result: Bear[];
 
   describe('t', () => {
     test('Then it should be instaced', () => {

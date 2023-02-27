@@ -15,9 +15,11 @@ describe('Given ThingsFileRepo', () => {
 
   describe('When i use query', () => {
     test('Then it should return the data', async () => {
+      // Arrange
       (fs.readFile as jest.Mock).mockResolvedValue('[]');
+      // Act
       const result = await repo.readAll();
-
+      // Assert
       expect(fs.readFile).toHaveBeenCalled();
       expect(result).toEqual([]);
     });

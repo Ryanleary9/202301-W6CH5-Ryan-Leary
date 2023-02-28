@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import cors from 'cors';
-import express from 'express';
+import express, { Response, Request, NextFunction } from 'express';
 import morgan from 'morgan';
 import { bearsRouter } from './router/bears.router.js';
+import createDebug from 'debug';
+import { CustomError } from './errors/errors.js';
+const debug = createDebug('W6:app');
 export const app = express();
 app.disable('x-powered-by');
 
@@ -13,9 +17,22 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors(corsOptions));
 
-app.use((_req, _resp, next) => {
-  console.log('Soy un middleware');
-  next();
-});
-
 app.use('/bears', bearsRouter);
+
+app.use(
+  (error: CustomError, _req: Request, resp: Response, _next: NextFunction) => {
+    debug('Soy el middleware de errores');
+    const status = error.statusCode || 500;
+    const statusMessage = error.statusMessage || 'Internal server error';
+    resp.status(status);
+    resp.json({
+      error: [
+        {
+          status,
+          statusMessage,
+        },
+      ],
+    });
+    debug(status, statusMessage, error.message);
+  }
+);

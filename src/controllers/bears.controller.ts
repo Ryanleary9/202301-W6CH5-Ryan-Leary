@@ -1,46 +1,64 @@
-import { Response, Request } from 'express';
-import { Bear, BearsFileRepo } from '../repository/bears.file.repo.js';
+import { Response, Request, NextFunction } from 'express';
+import { BearsFileRepo } from '../repository/bears.file.repo.js';
+import { Bear } from '../entities/bear.model.js';
+import { Repo } from '../repository/repo.interface.js';
+export class BearController {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(public repo: Repo<Bear>) {}
 
-export class BearsController {
-  // eslint-disable-next-line no-useless-constructor, no-unused-vars
-  constructor(public repo: BearsFileRepo) {}
-
-  readAll(_req: Request, resp: Response) {
-    this.repo.readAll().then((data) => {
-      resp.json(data);
-    });
+  async readAll(_req: Request, resp: Response, next: NextFunction) {
+    try {
+      const data = await this.repo.readAll();
+      resp.json({
+        results: data,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 
-  readID(req: Request, resp: Response) {
-    this.repo
-      .readID(Number(req.params.id))
-      .then((data) =>
-        data === undefined
-          ? resp.send('<p>No elements found with the request id</p>')
-          : resp.json(data)
-      );
+  async readID(req: Request, resp: Response, next: NextFunction) {
+    try {
+      const data = await this.repo.readID(req.params.id);
+      resp.json({
+        results: [data],
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 
-  write(req: Request, resp: Response) {
-    console.log(req.body);
-    this.repo.write(req.body).then();
-    resp.send('<h1>Write Successfull</h1>');
+  async write(req: Request, resp: Response, next: NextFunction) {
+    try {
+      const data = await this.repo.write(req.body);
+      resp.json({
+        results: [data],
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 
-  async update(req: Request, resp: Response) {
-    const updateInfo = req.body as Partial<Bear>;
-    const updateData = await this.repo.readID(Number(req.params.id));
-    const itemUpdate = Object.assign(updateData, updateInfo);
-    console.log(itemUpdate);
-    await this.repo.update(itemUpdate);
-    console.log('Data update: ' + itemUpdate);
-    resp.send('<h1>Update Sucessfull</h1>');
+  async update(req: Request, resp: Response, next: NextFunction) {
+    try {
+      req.body.id = req.params.id ? req.params.id : req.body.id;
+      const data = await this.repo.update(req.body);
+      resp.json({
+        results: [data],
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 
-  async delete(req: Request, resp: Response) {
-    await this.repo.delete(Number(req.params.id));
-    resp.send(
-      `<h1>Bear with id: ${req.params.id} has been deleted sucessfully</h1>`
-    );
+  async delete(req: Request, resp: Response, next: NextFunction) {
+    try {
+      this.repo.delete(req.params.id);
+      resp.json({
+        results: [],
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 }

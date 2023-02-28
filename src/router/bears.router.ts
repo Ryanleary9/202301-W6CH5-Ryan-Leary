@@ -1,11 +1,12 @@
 import { Router } from 'express';
-import { BearsController } from '../controllers/bears.controller.js';
-import { BearsFileRepo } from '../repository/bears.file.repo.js';
+import { BearController } from '../controllers/bears.controller.js';
+import { BearMongoRepo } from '../repository/bear.mongo.repo.js';
 
 // eslint-disable-next-line new-cap
 export const bearsRouter = Router();
-const repo = new BearsFileRepo();
-const controller = new BearsController(repo);
+//  A const repo = new BearsFileRepo();
+const repo = new BearMongoRepo();
+const controller = new BearController(repo);
 
 bearsRouter.get('/', controller.readAll.bind(controller));
 bearsRouter.get('/:id', controller.readID.bind(controller));

@@ -7,12 +7,6 @@ describe('Given ThingsFileRepo', () => {
   // Arrange
   const repo = new BearsFileRepo();
 
-  describe('t', () => {
-    test('Then it should be instaced', () => {
-      expect(repo).toBeInstanceOf(BearsFileRepo);
-    });
-  });
-
   describe('When i use query', () => {
     test('Then it should return the data', async () => {
       // Arrange
@@ -63,7 +57,7 @@ describe('Given ThingsFileRepo', () => {
       );
       const result = await repo.update({
         id: '1',
-        name: 'test',
+        name: 'Pepe',
         height: '200 cm',
         type: 'Black bear',
         weight: '300 kg',
@@ -71,7 +65,7 @@ describe('Given ThingsFileRepo', () => {
       expect(fs.readFile).toHaveBeenCalled();
       expect(result).toEqual({
         id: '1',
-        name: 'test',
+        name: 'Pepe',
         height: '200 cm',
         type: 'Black bear',
         weight: '300 kg',

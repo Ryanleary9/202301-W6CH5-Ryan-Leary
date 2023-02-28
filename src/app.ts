@@ -13,9 +13,4 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors(corsOptions));
 
-app.use((_req, _resp, next) => {
-  console.log('Soy un middleware');
-  next();
-});
-
 app.use('/bears', bearsRouter);

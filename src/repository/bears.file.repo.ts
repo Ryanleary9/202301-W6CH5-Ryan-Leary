@@ -42,7 +42,7 @@ export class BearsFileRepo implements Repo<Bear> {
 
     if (!updateItem.id) throw new Error('Id not found');
     await fs.writeFile(file, JSON.stringify(finalData), 'utf-8');
-    return updateItem as Bear;
+    return updateItem;
   }
 
   async delete(id: string): Promise<void> {
@@ -51,6 +51,6 @@ export class BearsFileRepo implements Repo<Bear> {
     const index = data.findIndex((item) => item.id === id);
     if (index < 0) throw new Error('Id not found');
     data.slice(index, 1);
-    await fs.writeFile(file, JSON.stringify(data), 'utf-8');
+    fs.writeFile(file, JSON.stringify(data), 'utf-8');
   }
 }
